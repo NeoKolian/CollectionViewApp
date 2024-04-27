@@ -9,20 +9,22 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    let cellWidth = (3/4) * UIScreen.main.bounds.width
-    let spacing = (1/16) * UIScreen.main.bounds.width
-    let cellSpacing = (1/16) * UIScreen.main.bounds.width
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
     }
 
     private lazy var collectionView: UICollectionView = {
+
+        let cellWidth = (3/4) * UIScreen.main.bounds.width
+        
         let layout = PagingCollectionViewLayout()
-        layout.sectionInset = .init(top: 0, left: self.spacing, bottom: 0, right: self.spacing)
-        layout.minimumLineSpacing = self.cellSpacing
-        layout.itemSize = .init(width: self.cellWidth, height: self.view.frame.height / 2)
+        
+        layout.sectionInsetReference = .fromLayoutMargins
+        let spacing = CGFloat(layout.sectionInsetReference.rawValue)
+
+        layout.sectionInset = .init(top: 0, left: spacing, bottom: 0, right: spacing)
+        layout.itemSize = .init(width: cellWidth, height: self.view.frame.height / 2)
         layout.scrollDirection = .horizontal
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
